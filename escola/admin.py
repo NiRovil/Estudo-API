@@ -1,22 +1,23 @@
 from django.contrib import admin
 from escola.models import Aluno, Curso, Matricula
 
-class RegistroAluno(admin.ModelAdmin):
-    list_display = ['id','nome', 'cpf', 'data_de_nascimento']
-    list_display_links = ['id','nome']
-    list_per_page = 5
+class Alunos(admin.ModelAdmin):
+    list_display = ('id','nome', 'rg', 'cpf', 'data_nascimento')
+    list_display_links = ('id', 'nome')
+    search_fields = ('nome',)
+    list_per_page = 20
 
-admin.site.register(Aluno, RegistroAluno)
+admin.site.register(Aluno, Alunos)
 
-class RegistroCurso(admin.ModelAdmin):
-    list_display = ['id', 'curso']
-    list_display_links = ['id', 'curso']
-    list_per_page = 5
+class Cursos(admin.ModelAdmin):
+    list_display = ('id', 'codigo_curso', 'descricao')
+    list_display_links = ('id', 'codigo_curso')
+    search_fields = ('codigo_curso',)
 
-admin.site.register(Curso, RegistroCurso)
+admin.site.register(Curso, Cursos)
 
-class RegistroMatricula(admin.ModelAdmin):
-    list_display = ['aluno', 'curso', 'periodo']
-    list_display_links = ['aluno']
+class Matriculas(admin.ModelAdmin):
+    list_display = ('id', 'aluno', 'curso', 'periodo')
+    list_display_links = ('id', )
 
-admin.site.register(Matricula, RegistroMatricula)
+admin.site.register(Matricula, Matriculas)

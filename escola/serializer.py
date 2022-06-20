@@ -1,11 +1,16 @@
-from numpy import source
+from ssl import ALERT_DESCRIPTION_UNSUPPORTED_CERTIFICATE
 from rest_framework import serializers
 from escola.models import Aluno, Curso, Matricula
 
 class AlunoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Aluno
-        fields = ['id','nome','cpf', 'rg', 'data_de_nascimento']
+        fields = ['id', 'nome', 'rg', 'cpf', 'data_nascimento']
+
+class AlunoSerializerV2(serializers.ModelSerializer):
+    class Meta:
+        model = Aluno
+        fields = ['id', 'nome', 'rg', 'cpf', 'data_nascimento', 'celular']
 
 class CursoSerializer(serializers.ModelSerializer):
     class Meta:
@@ -15,9 +20,9 @@ class CursoSerializer(serializers.ModelSerializer):
 class MatriculaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Matricula
-        fields = '__all__'
+        exclude = []
 
-class AlunoMatriculaSerializer(serializers.ModelSerializer):
+class ListaMatriculasAlunoSerializer(serializers.ModelSerializer):
     curso = serializers.ReadOnlyField(source='curso.descricao')
     periodo = serializers.SerializerMethodField()
     class Meta:
@@ -26,11 +31,8 @@ class AlunoMatriculaSerializer(serializers.ModelSerializer):
     def get_periodo(self, obj):
         return obj.get_periodo_display()
 
-class CursoMatriculaSerializer(serializers.ModelSerializer):
-    aluno = serializers.ReadOnlyField(source='aluno.nome')
-    #curso = serializers.ReadOnlyField(source='curso.descricao')
+class ListaAlunosMatriculadosSerializer(serializers.ModelSerializer):
+    aluno_nome = serializers.ReadOnlyField(source='aluno.nome')
     class Meta:
         model = Matricula
-        fields = ['aluno']
-    
-    
+        fields = ['aluno_nome']
