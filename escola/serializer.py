@@ -1,4 +1,3 @@
-from ssl import ALERT_DESCRIPTION_UNSUPPORTED_CERTIFICATE
 from rest_framework import serializers
 from escola.models import Aluno, Curso, Matricula
 
